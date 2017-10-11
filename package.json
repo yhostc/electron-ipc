@@ -1,0 +1,30 @@
+{
+  "name": "electron-ipc",
+  "version": "0.3.0",
+  "description": "IPC for Electron using promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "handoff": "^1.2.0",
+    "hat": "0.0.3"
+  },
+  "keywords": [
+    "publish",
+    "subscribe",
+    "ipc",
+    "electron",
+    "promises"
+  ],
+  "author": "Taka Kojima <taka@gigafied.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yhostc/electron-ipc/issues"
+  },
+  "homepage": "https://github.com/yhostc/electron-ipc#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yhostc/electron-ipc.git"
+  }
+}

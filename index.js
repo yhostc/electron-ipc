@@ -20,10 +20,7 @@ function sendIPC(targetWin, ...args) {
     let id = ID()
     return new Promise((resolve, reject) => {
         // 设置缓存请求Promise
-        MESSAGES[id] = {
-            resolve,
-            reject
-        }
+        MESSAGES[id] = { resolve, reject }
         if (IS_RENDERER) {
             // 渲染进程，发送请求到主进程
             TARGET.send('handoff.request', id, ...args)
@@ -42,18 +39,24 @@ function sendIPC(targetWin, ...args) {
 TARGET.on('handoff.response', (event, id, success, response) => {
     // 获取请求Promise
     let promise = MESSAGES[id]
-    if (!promise) throw new Error('Unexpected response...')
-    if (success) promise.resolve(response)
-    else {
-        let err = new Error(response.message)
-        err.stack = response.stack
-        promise.reject(err)
+    if (promise) {
+        if (success) {
+            promise.resolve(response)
+        } else {
+            // let err = new Error(response.message)
+            // err.stack = response.stack
+            // promise.reject(err)
+        }
+    } else {
+        // throw new Error('Unexpected response...')
+        // console.error('Unexpected response...')
     }
     delete MESSAGES[id]
 })
 
 // 统一监听请求
 TARGET.on('handoff.request', (event, id, ...args) => {
+    // TODO: 多个windows对象发送同一消息名称时，会被最后一个事件结果所覆盖
     handoff.publish(...args).then(response => {
         // 根据请求返回正常结果
         event.sender.send('handoff.response', id, true, response)
